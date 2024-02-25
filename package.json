@@ -1,7 +1,7 @@
 {
   "name": "team-project-team-raphael",
   "version": "1.0.0",
-  "description": "",
+  "description": "WeatherVibe is a delightful and intuitive weather application designed to not only provide you with up-to-the-minute weather updates but also to match your day's vibe with the current weather conditions. Whether it's a sunny day perfect for a picnic or a cozy rainy evening ideal for reading, WeatherVibe has suggestions for you.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "mongoose": "^8.2.0"
+    "mongoose": "^8.2.0",
+    "vue-router": "^4.3.0"
   }
 }
