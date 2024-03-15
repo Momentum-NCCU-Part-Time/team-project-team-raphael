@@ -9,6 +9,8 @@
                 v-if="weather && !showHourlyForecast && !showSevenDayForecast">Match My Vibe</button>
             <button @click="logout" class="logout-btn">Logout</button>
         </div>
+        <div class="{ 'dark-mode': isDarkMode }">
+            </div>
         <!-- Matched Prompt Section -->
         <transition name="fade">
             <div v-if="matchedPrompt && matchedVibeClicked" class="matched-prompt">
@@ -95,6 +97,7 @@ export default {
             showHourlyForecast: false,
             showSevenDayForecast: false,
             matchedVibeClicked: false,
+            isDarkMode: false,
             cityName: '',
             regionName: '',
             backgroundImage: null,
@@ -125,6 +128,7 @@ export default {
                 const forecastTime = new Date(hour.time_epoch * 1000); // Forecast time in UTC
                 return forecastTime >= locationTime && forecastTime <= new Date(locationTime.getTime() + 5 * 60 * 60 * 1000);
             });
+            
 
             // Fallback: If filtered data is sparse, adjust the criteria or extend the window
             if (filteredForecast.length < 5) {
@@ -132,6 +136,11 @@ export default {
             }
 
             return filteredForecast.slice(0, 5); // Ensure no more than 5 hours are returned
+
+            this.checkTime(); // Initial check
+    setInterval(() => {
+      this.checkTime(); // Check every minute for time change
+    }, 1000 * 60);
         },
     },
     methods: {
@@ -365,6 +374,15 @@ export default {
         clearZipCode() {
             this.zipCode = '';
         },
+        checkTime() {
+      const currentTime = new Date();
+      const hours = currentTime.getHours();
+      // between 6 PM and 6 AM
+      this.isDarkMode = hours >= 18 || hours < 6;
+    },
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+    },
         promptForCurrentLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -734,4 +752,7 @@ body {
         margin-bottom: 15px;
     }
 }
+
+@import 'dark-mode.css';
+
 </style>
