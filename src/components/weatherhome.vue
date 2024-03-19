@@ -438,11 +438,6 @@ export default {
                         const { latitude, longitude } = position.coords;
                         this.getZipCode(latitude, longitude);
                     },
-                    (error) => {
-                        console.error("Error getting current location:", error);
-                        // Fallback to IP-based location
-                        this.fetchLocationFromIP();
-                    }
                 );
             } else {
                 console.error("Geolocation is not supported by this browser.");
