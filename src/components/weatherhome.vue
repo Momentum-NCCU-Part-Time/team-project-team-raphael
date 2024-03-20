@@ -124,14 +124,10 @@ export default {
                 },
                 (error) => {
                     console.error("Error getting current location via Geolocation:", error);
-                    // Fallback to IP-based location if Geolocation fails
-                    this.fetchLocationFromIP();
                 }
             );
         } else {
             console.error("Geolocation is not supported by this browser, falling back to IP-based location.");
-            // Fallback to IP-based location if Geolocation is not supported
-            this.fetchLocationFromIP();
         }
     },
     computed: {
@@ -441,26 +437,6 @@ export default {
                 );
             } else {
                 console.error("Geolocation is not supported by this browser.");
-                // Fallback to IP-based location if geolocation is not supported
-                this.fetchLocationFromIP();
-            }
-        },
-        async fetchLocationFromIP() {
-            const apiKey = import.meta.env.VITE_IPAPI_API_KEY;
-            const url = `https://ipapi.co/json/?access_key=${apiKey}`;
-
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Failed to fetch IP-based location');
-                const data = await response.json();
-
-                if (data.latitude && data.longitude) {
-                    this.getZipCode(data.latitude, data.longitude);
-                } else {
-                    console.error('Latitude and longitude not found in IPAPI response');
-                }
-            } catch (error) {
-                console.error('Error fetching location from IP:', error);
             }
         },
         async getZipCode(latitude, longitude) {
